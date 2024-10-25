@@ -2,7 +2,7 @@
 name = "repl-calculator"
 version = "0.1.0"
 description = "A simple REPL Calculator"
-authors = ["kadeem-lewis <email@kadeemlewis.com>"]
+authors = ["kadeem-lewis"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
