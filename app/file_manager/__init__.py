@@ -3,6 +3,7 @@
 from typing import List
 import pandas as pd
 from app.calculator.calculation import Calculation
+import logging
 
 class FileManager:
     """Class for reading and writing csvs."""
@@ -21,7 +22,7 @@ class FileManager:
                 calculations.append(calc)
             except Exception as e:
                 # Handle any parsing errors
-                print(f"Error parsing row {row}: {e}")
+                logging.error("Error parsing row %s: %s", row, e)
         return calculations
 
     @staticmethod
