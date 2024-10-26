@@ -9,6 +9,7 @@ import pkgutil
 import importlib
 from dotenv import load_dotenv
 from app.commands import CommandHandler, Command
+from app.calculator.history import History
 class App:
     """ Main application class. """
     def __init__(self):
@@ -19,6 +20,8 @@ class App:
         self.settings = self.load_environment_variables()
         self.settings.setdefault("ENVIRONMENT", "PRODUCTION")
         self.command_handler = CommandHandler()
+        History.initialize_history()
+
     def configure_logging(self):
         """Configure logging."""
         logging_conf_path = "logging.conf"
