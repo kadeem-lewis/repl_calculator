@@ -36,17 +36,27 @@ class CommandHandler:
         # Define the arithmetic operations to exclude
         operation_commands = ["add", "subtract", "multiply", "divide"]
 
-        # Collect command instances for arithmetic operations
-        operation_instances = {
-            command_name: self.commands[command_name]
-            for command_name in operation_commands
-            if command_name in self.commands
-        }
+        # Create a list to keep track of excluded commands
+        excluded_commands = []
 
-        # Filter out commands that match the instances of arithmetic operations
+        # Find and exclude the operation commands and their corresponding index entries
+        for command_name in operation_commands:
+            if command_name in self.commands:
+                excluded_commands.append(command_name)
+                # Assuming the next item in the dictionary is the index for the operation
+                command_keys = list(self.commands.keys())
+                command_index = command_keys.index(command_name)
+                if command_index + 1 < len(command_keys):
+                    index_key = command_keys[command_index + 1]
+                    if index_key.isdigit():
+                        excluded_commands.append(index_key)
+
+        # Filter out the excluded commands to get the list of immediate commands
         immediate_commands = [
-            command_name for command_name, command_instance in self.commands.items()
-            if command_instance not in operation_instances.values()
+            command_name for command_name in self.commands.keys()
+            if command_name not in excluded_commands
         ]
 
         return immediate_commands
+
+    
