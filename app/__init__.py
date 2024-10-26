@@ -1,7 +1,6 @@
 """ Main application module. """
 
 import os
-import sys
 from fractions import Fraction
 import logging
 import logging.config
@@ -9,7 +8,6 @@ import pkgutil
 import importlib
 from dotenv import load_dotenv
 from app.commands import CommandHandler, Command
-from app.calculator.history import History
 class App:
     """ Main application class. """
     def __init__(self):
@@ -20,7 +18,6 @@ class App:
         self.settings = self.load_environment_variables()
         self.settings.setdefault("ENVIRONMENT", "PRODUCTION")
         self.command_handler = CommandHandler()
-        History.initialize_history()
 
     def configure_logging(self):
         """Configure logging."""
@@ -79,6 +76,7 @@ class App:
     def start(self):
         """ Start the application. """
         self.load_plugins()
+        immediate_commands = self.command_handler.get_immediate_commands()
 
         logging.info("Type 'exit' to exit.")
         while True:  # REPL Read, Evaluate, Print, Loop
@@ -89,7 +87,7 @@ class App:
                 .strip()
                 .lower()
             )
-            if command in ["exit", "menu"]:
+            if command in immediate_commands:
                 self.command_handler.execute_command(command)
                 continue
             try:
