@@ -30,3 +30,23 @@ class CommandHandler:
         except KeyError:
             print(f"No such command: {command_name}")
             logging.error("No such command: %s", command_name)
+
+    def get_immediate_commands(self) -> list[str]:
+        """Get all immediate command names excluding arithmetic operations."""
+        # Define the arithmetic operations to exclude
+        operation_commands = ["add", "subtract", "multiply", "divide"]
+
+        # Collect command instances for arithmetic operations
+        operation_instances = {
+            command_name: self.commands[command_name]
+            for command_name in operation_commands
+            if command_name in self.commands
+        }
+
+        # Filter out commands that match the instances of arithmetic operations
+        immediate_commands = [
+            command_name for command_name, command_instance in self.commands.items()
+            if command_instance not in operation_instances.values()
+        ]
+
+        return immediate_commands
