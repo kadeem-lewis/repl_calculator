@@ -1,7 +1,7 @@
 """Clear history command module."""
 
+import logging
 from app.commands import Command
-from app.file_manager import FileManager
 from app.calculator.history import History
 
 
@@ -10,3 +10,4 @@ class ClearHistoryCommand(Command):
 
     def execute(self):
         History.clear_history()
+        logging.info("History cleared.")
