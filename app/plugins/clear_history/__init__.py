@@ -10,4 +10,3 @@ class ClearHistoryCommand(Command):
 
     def execute(self):
         History.clear_history()
-        FileManager.delete_csv_file(History.get_history_path())
