@@ -1,6 +1,6 @@
 # Kadeem Lewis Midterm
 
-## Demo Video: [here]()
+## Demo Video: [here](https://youtu.be/L1CfVRqsOsA)
 
 
 ## Instructions
