@@ -1,9 +1,11 @@
 """Module for reading and writing csvs."""
 
+import os
 from typing import List
-import pandas as pd
-from app.calculator.calculation import Calculation
 import logging
+import pandas as pd
+from pandas.errors import EmptyDataError
+from app.calculator.calculation import Calculation
 
 class FileManager:
     """Class for reading and writing csvs."""
@@ -13,6 +15,10 @@ class FileManager:
         try:
             df = pd.read_csv(file_name)
         except FileNotFoundError:
+            logging.warning("File '%s' not found.", file_name)
+            return []
+        except EmptyDataError:
+            logging.warning("File '%s' is empty.", file_name)
             return []
 
         calculations = []
@@ -31,4 +37,20 @@ class FileManager:
         data = [calc.to_dict() for calc in calculations]
         df = pd.DataFrame(data)
         df.to_csv(file_name, index=False)
+    
+    @staticmethod
+    def delete_csv_file(file_name: str):
+        """
+        Delete the specified CSV file.
         
+        Args:
+            file_name (str): The name of the CSV file to delete.
+        """
+        try:
+            os.remove(file_name)
+            logging.info("File '%s' has been deleted.", file_name)
+        except FileNotFoundError:
+            logging.warning("File '%s' does not exist.", file_name)
+        except Exception as e:
+            logging.error("Error deleting file '%s': %s", file_name, e)
+
